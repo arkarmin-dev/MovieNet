@@ -1,0 +1,106 @@
+<!-- src/main/resources/templates/movie-details.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .movie-details {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .movie-poster {
+            flex: 0 0 30%; /* Adjust width as needed */
+            margin-right: 20px;
+        }
+        .movie-poster img {
+            width: 100%;
+            height: auto;
+        }
+        .movie-info {
+            flex: 1;
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .review .user {
+            font-weight: bold;
+        }
+        .review .date {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<h1>Movie Details</h1>
+<div class="movie-details">
+    <div class="movie-poster">
+        <img th:src="@{${movie.posterUrl}}" alt="Movie Poster">
+    </div>
+    <div class="movie-info">
+        <h2 th:text="${movie.title}">Title</h2>
+        <p><strong>Rating:</strong> <span th:text="${movie.imdb_rating}">Rating Value</span></p>
+        <p><strong>Director:</strong> <span th:text="${movie.director}">Director Name</span></p>
+        <p><strong>Released Year:</strong> <span th:text="${movie.releaseDate}">Year Released</span></p>
+        <!-- Add more details as needed -->
+        <p><strong>Genres:</strong>
+            <span th:each="genre : ${movie.genres}" th:text="${genre.name}"></span>
+        </p>
+        <p><strong>Plot:</strong> <span th:text="${movie.plot}">Movie Plot</span></p>
+
+        <form th:action="@{/downloadFile}" method="get">
+            <input type="hidden" name="fileUrl" th:value="${movie.fileUrl}" />
+            <button type="submit">Download Movie</button>
+        </form>
+    </div>
+</div>
+<div class="reviews">
+    <h2>Reviews</h2>
+    <div th:each="review : ${reviews}">
+        <div class="review">
+            <p class="user" th:text="${review.user.userName}">User</p>
+            <p class="date" th:text="${review.reviewDate}">Review Date</p>
+            <p><strong>Rating:</strong> <span th:text="${review.rating}">Rating Value</span></p>
+            <p><strong>Review:</strong> <span th:text="${review.reviewText}">Review Text</span></p>
+        </div>
+    </div>
+    <div class="new-review">
+        <h3>Add a Review</h3>
+        <form method="post" th:action="@{/user/reviews/{id}(id=${movie.movieId})}" th:object="${newReview}">
+            <input type="hidden" th:field="*{movie}" th:value="${movie}" />
+            <input type="hidden" id="userName" name="userName" th:field="*{user.userName}" />
+            <div>
+                <label for="rating">Rating:</label>
+                <input type="number" id="rating" name="rating" th:field="*{rating}" min="1" max="5" required />
+            </div>
+            <div>
+                <label for="reviewText">Review:</label>
+                <textarea id="reviewText" name="reviewText" th:field="*{reviewText}" required></textarea>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+</div>
+<!--
+<div class="file-upload">
+    <h3>Upload Movie File</h3>
+    <form method="post" enctype="multipart/form-data" th:action="@{/uploadFile}">
+        <div>
+            <label for="file">Choose file to upload:</label>
+            <input type="file" id="file" name="file" required />
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+</div> -->
+</body>
+</html>
