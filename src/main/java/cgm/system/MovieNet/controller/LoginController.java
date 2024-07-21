@@ -116,4 +116,9 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login?logout"; // Handle the logout redirect
+    }
+
 }

@@ -40,7 +40,7 @@ public class Review {
     private LocalDate reviewDate;
 
     public Review(Movie movie, User user, int rating, String reviewText, LocalDate reviewDate) {
-        this.movie = movie;
+        this.movie=movie;
         this.user = user;
         this.rating = rating;
         this.reviewText = reviewText;

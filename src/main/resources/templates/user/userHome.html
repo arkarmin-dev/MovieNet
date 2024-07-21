@@ -27,9 +27,19 @@
             text-decoration: none;
             color: #007bff;
         }
+         .logout {
+            text-align: right;
+        }
+        .logout a {
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+<div class="logout">
+    <a th:href="@{/logout}">Logout</a>
+</div>
 <h1>User Home</h1>
 <h2>Search Movies</h2>
 <form th:action="@{/user/search}" id="searchForm">

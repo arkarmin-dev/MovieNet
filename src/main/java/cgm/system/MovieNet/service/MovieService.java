@@ -18,4 +18,6 @@ public interface MovieService {
     Page<Movie> searchByTitle(String title, Pageable pageable);
 
     Page<Movie> searchByGenre(Long genreId, Pageable pageable);
+
+    public void deleteMovieById(Long movieId);
 }

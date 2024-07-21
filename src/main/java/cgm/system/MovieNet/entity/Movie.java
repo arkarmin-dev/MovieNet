@@ -45,12 +45,17 @@ public class Movie {
     @Column(name = "file_url")
     private String fileUrl;
 
+    @Column(name = "deleted")
+    private Boolean deleted = false;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Movie_Genres",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres;
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
     public Movie(String title, Integer releaseDate, String plot,Double imdb_rating, String director, String posterUrl, String fileUrl) {
         this.title = title;

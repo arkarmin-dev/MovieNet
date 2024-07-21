@@ -1,10 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin Home</title>
+    <style>
+        .container > div {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .movie-card {
+            flex: 0 0 25%; /* Four movies per row */
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        .poster {
+            width: 100%;
+            height: auto;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .logout {
+            text-align: right;
+        }
+        .logout a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
+<div class="logout">
+    <a th:href="@{/logout}">Logout</a>
+</div>
 <h1>Admin Home</h1>
+<p><a th:href="@{/admin/addMovie}" style="color: #007bff; text-decoration: none;">Add New Movie</a></p>
+<h2>Search Movies</h2>
+<form th:action="@{/admin/search}" id="searchForm">
+    <input type="text" name="title" placeholder="Search by movie name"  th:value="${adm_ttl}"/>
+    <select name="genreId" >
+        <option value="">All Categories</option>
+        <option th:each="genre : ${adm_genres}"
+                th:value="${genre.genreId}"
+                th:text="${genre.name}"
+                th:selected="${adm_gId} == ${genre.genreId}">
+        </option>
+    </select>
+    <!-- <select name="genreId">
+         <option value="" selected>All Categories</option>
+         <option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.name}"></option>
+     </select> -->
+    <button type="submit">Search</button>
+</form>
+
+<div class="container">
+    <div th:if="${not #lists.isEmpty(adm_movies_genres)}">
+        <div class="movie-card" th:each="movie : ${adm_moviePage.content}">
+            <a th:href="@{/admin/movie/{id}(id=${movie.movieId})}">
+                <img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster"/>
+                <h3 th:text="${movie.title}">Title</h3>
+                <p th:text="${movie.releaseDate}">Year</p>
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(adm_movies_genres)}">
+        <div class="movie-card" th:each="movie : ${adm_moviePage.content}">
+            <a th:href="@{/admin/movie/{id}(id=${movie.movieId})}">
+                <img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster"/>
+                <h3 th:text="${movie.title}">Title</h3>
+                <p th:text="${movie.releaseDate}">Year</p>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+<!--
+<div th:if="${not #lists.isEmpty(adm_movies_genres)}">
+<div class="pagination">
+    <a th:href="@{/admin/search(page=${searchPage.number - 1}, size=${searchPage.size}, title=${adm_ttl}, genreId=${genre.adm_gId})}"
+       th:if="${searchPage.hasPrevious()}">Previous</a>
+    <span>Page <span th:text="${searchPage.number + 1}">1</span> of <span th:text="${searchPage.totalPages}">1</span></span>
+    <a th:href="@{/admin/search(page=${searchPage.number + 1}, size=${searchPage.size}, title=${title}, genreId=${genre.genreId})}"
+       th:if="${searchPage.hasNext()}">Next</a>
+</div>
+<div th:if="${#lists.isEmpty(adm_movies_genres)}">
+</div>
+</div>-->
+
+
+<div class="pagination">
+    <a th:href="@{/admin/home(page=${adm_moviePage.number - 1}, size=${adm_moviePage.size})}"
+       th:if="${adm_moviePage.hasPrevious()}">Previous</a>
+    <span>Page <span th:text="${adm_moviePage.number + 1}">1</span> of <span th:text="${adm_moviePage.totalPages}">1</span></span>
+    <a th:href="@{/admin/home(page=${adm_moviePage.number + 1}, size=${adm_moviePage.size})}"
+       th:if="${adm_moviePage.hasNext()}">Next</a>
+</div>
+
+
 </body>
 </html>
+

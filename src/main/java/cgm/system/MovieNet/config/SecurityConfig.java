@@ -42,12 +42,18 @@ public class SecurityConfig  {
                         .successHandler(customLoginSuccessHandler)
                         .failureUrl("/login?error=true")
                         .permitAll()
-                )
-                .logout(logout -> logout.permitAll());
+                ).logout(logout -> logout
+                        .logoutUrl("/logout") // URL to trigger logout
+                        .logoutSuccessUrl("/login?logout") // Redirect URL after logout
+                        .permitAll()
+                );
+               /* .logout(logout -> logout.permitAll());*/
 
         return http.build();
 
     }
+
+
 
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

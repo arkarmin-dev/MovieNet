@@ -111,20 +111,16 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-
-
         Movie movieB = movieService.getMovieById(id);
         newReview.setMovie(movieB);
 
-        if (movieB == null || newReview == null || newReview.getMovie() == null ||newReview.getMovie().getMovieId()==null) {
+        if (movieB == null || newReview == null || newReview.getMovie() == null ) {
             // Handle the case where movie is not properly set
             // Redirect or return an error message
             return "redirect:/user/home"; // Example redirection
         }
-
         // Save the review with username
         reviewService.saveReview(newReview,username);
-
         return "redirect:/user/movie/" + id;
     }
 

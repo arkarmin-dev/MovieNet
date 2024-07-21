@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .movie-details {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .movie-poster {
+            flex: 0 0 30%; /* Adjust width as needed */
+            margin-right: 20px;
+        }
+        .movie-poster img {
+            width: 100%;
+            height: auto;
+        }
+        .movie-info {
+            flex: 1;
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .review .user {
+            font-weight: bold;
+        }
+        .review .date {
+            font-size: 12px;
+            color: #666;
+        }
+        .admin-edit {
+            margin-top: 20px;
+        }
+        .admin-edit form {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Movie Details</h1>
+<div class="movie-details">
+    <div class="movie-poster">
+        <img th:src="@{${adm_movie.posterUrl}}" alt="Movie Poster">
+        <form method="post" enctype="multipart/form-data" th:action="@{/admin/updatePoster/{id}(id=${adm_movie.movieId})}">
+            <input type="file" name="posterFile" required />
+            <input type="hidden" name="movieId" th:value="${adm_movie.movieId}" />
+            <button type="submit">Update Poster</button>
+        </form>
+    </div>
+    <div class="movie-info">
+        <form method="post" th:action="@{/admin/updateMovie/{id}(id=${adm_movie.movieId})}" th:object="${adm_movie}">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" th:field="*{title}" required />
+            </div>
+            <div>
+                <label for="releaseDate">Release Year:</label>
+                <input type="number" id="releaseDate" name="releaseDate" th:field="*{releaseDate}" required />
+            </div>
+            <div>
+                <label >Genres:</label>
+                <select  name="genreId" >
+                    <option th:each="genre : ${adm_genres}"
+                            th:value="${genre.genreId}"
+                            th:text="${genre.name}"
+                            th:selected="${#lists.contains(adm_movie.genres, genre)}">
+                    </option>
+                </select>
+
+            </div>
+            <div>
+                <label for="imdb_rating">IMDb Rating:</label>
+                <input type="number" id="imdb_rating" name="imdb_rating" th:field="*{imdb_rating}" step="0.1" required />
+            </div>
+            <div>
+                <label for="director">Director:</label>
+                <input type="text" id="director" name="director" th:field="*{director}" required />
+            </div>
+            <div>
+                <label for="plot">Plot:</label>
+                <textarea id="plot" name="plot" th:field="*{plot}" required></textarea>
+            </div>
+            <button type="submit">Update Movie</button>
+        </form>
+
+        <form method="post" th:action="@{/admin/deleteMovie/{id}(id=${adm_movie.movieId})}" style="margin-top: 10px;">
+            <button type="submit">Delete Movie</button>
+        </form>
+    </div>
+</div>
+
+<div class="reviews">
+    <h2>Reviews</h2>
+    <div th:each="review : ${adm_reviews}">
+        <div class="review">
+            <p class="user" th:text="${review.user.userName}">User</p>
+            <p class="date" th:text="${review.reviewDate}">Review Date</p>
+            <p><strong>Rating:</strong> <span th:text="${review.rating}">Rating Value</span></p>
+            <p><strong>Review:</strong> <span th:text="${review.reviewText}">Review Text</span></p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
