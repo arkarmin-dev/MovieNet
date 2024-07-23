@@ -5950,7 +5950,7 @@ ul {
   transition: all 0.5s ease-out;
 }
 .movie-single {
-  margin-top: -415px;
+  margin-top: -540px;
 }
 .movie-single .movie-img,
 .movie-single .mv-ceb {
@@ -6000,7 +6000,7 @@ ul {
   justify-content: flex-start;
   border-top: 1px solid #405266;
   border-bottom: 1px solid #405266;
-  margin-bottom: 70px;
+  
 }
 @media (max-width: 767px) {
   .movie-single .movie-single-ct .movie-rate {
@@ -8284,4 +8284,12 @@ footer.full-width-ft .ft-copyright {
   color: #8c9296;
   font-family: 'Dosis', sans-serif;
   font-weight: 700;
+}
+.slide-image{
+height: 300px;
+    object-fit: cover;
+}
+
+.col-md-8-width{
+  width: 66.66666667%;
 }

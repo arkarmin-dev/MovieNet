@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--[if IE 7]>
-<!- <html class="ie ie7 no-js" lang="en-US">-->
+<html class="ie ie7 no-js" lang="en-US">
 <![endif]-->
 <!--[if IE 8]>
-<!- <html class="ie ie8 no-js" lang="en-US"> -->
+ <html class="ie ie8 no-js" lang="en-US"> 
 <![endif]-->
 <!--[if !(IE 7) | !(IE 8)  ]><!-->
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
@@ -84,7 +84,7 @@
 					<div th:each="movie : ${moviePage.content}" class="movie-item">
 						<div class="mv-img">
 							<a th:href="@{/user/movie/{id}(id=${movie.movieId})}">
-								<img th:src="@{${movie.posterUrl}}" alt="Poster">
+								<img th:src="@{${movie.posterUrl}}" alt="Poster" class="slide-image">
 							</a>
 						</div>
 						<div class="title-in">
@@ -110,7 +110,7 @@
 					<div class="flex-wrap-movielist" th:if="${not #lists.isEmpty(movies_genres)}">
 						<div class="movie-item-style-2 movie-item-style-1" th:each="movie : ${moviePage.content}">
 
-							<img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster" />
+							<img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster slide-image" />
 							<div class="hvr-inner">
 								<a th:href="@{/user/movie/{id}(id=${movie.movieId})}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
 							</div>
@@ -124,7 +124,7 @@
 					<div class="flex-wrap-movielist" th:if="${#lists.isEmpty(movies_genres)}">
 						<div class="movie-item-style-2 movie-item-style-1" th:each="movie : ${moviePage.content}">
 
-							<img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster" />
+							<img th:src="@{${movie.posterUrl}}" alt="Poster" class="poster slide-image" />
 							<div class="hvr-inner">
 								<a th:href="@{/user/movie/{id}(id=${movie.movieId})}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
 							</div>
@@ -211,6 +211,7 @@
 	<script th:src="@{/js/plugins.js}"></script>
 	<script th:src="@{/js/plugins2.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
+
 </body>
 
 <!-- moviegrid07:38-->

@@ -1,6 +1,12 @@
 /*!
  * Dropdownhover v1.0.0 (http://bs-dropdownhover.kybarg.com)
- */
+ */@font-face {
+       font-family: 'Ionicons';
+       src: url('/fonts/ionicons.woff') format('woff'),
+            url('/fonts/ionicons.ttf') format('truetype');
+       font-weight: normal;
+       font-style: normal;
+   }
 .dropdown .dropdown-menu .caret {
 	border: 4px solid transparent;
 	border-left-color: #000;

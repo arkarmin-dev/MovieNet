@@ -1744,7 +1744,8 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                         movie,
                         user1,
                         5,
-                        "Very Good",
+                        """
+                        This is by far one of my favorite movies. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies , the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.""",
                         LocalDate.now() );
                 reviewRepository.save(review1);
 
@@ -1753,8 +1754,15 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                         user2,
                         5,
                         """
-                                Emotionally profound and masterfully directed.
-                                a must-watch for any movie lover""",
+                                There are a lot of good and one thing that feels off in my opinion.
+
+THE GOOD:
+
+First off the action in this movie is amazing, to buildings crumbling, to evil blue eyed robots tearing stuff up, this movie has the action perfectly handled. And with that action comes visuals. The visuals are really good, even though you can see clearly where they are through the movie, but that doesn't detract from the experience. While all the CGI glory is taking place, there are lovable characters that are in the mix. First off the original characters, Iron Man, Captain America, Thor, Hulk, Black Widow, and Hawkeye, are just as brilliant as they are always. And Joss Whedon fixed my main problem in the first Avengers by putting in more Hawkeye and him more fleshed out. Then there is the new Avengers, Quicksilver, Scarletwich, and Vision, they are pretty cool in my opinion. Vision in particular is pretty amazing in all his scenes.
+
+THE BAD:
+
+The beginning of the film it's fine until towards the second act and there is when it starts to feel a little rushed. Also I do feel like there are scenes missing but there was talk of an extended version on Blu-Ray so that's cool.""",
                         LocalDate.now() );
                 reviewRepository.save(review2);
 
@@ -1762,7 +1770,8 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                         movie,
                         user3,
                         5,
-                        "An inspiring and heartwarming masterpiece",
+                        """
+                        I can't right much... it's just so forgettable...Okay, from what I remember, I remember just sitting down on my seat and waiting for the movie to begin. 5 minutes into the movie, boring scene of Tony Stark just talking to his "dead" friends saying it's his fault. 10 minutes in: Boring scene of Ultron and Jarvis having robot space battles(I dunno:/). 2nd attempt at watching it: I fall asleep. What woke me up is the next movie on Netflix when the movie was over.Bottemline: It's boring...""",
                         LocalDate.now() );
                 reviewRepository.save(review3);
 
@@ -1771,8 +1780,11 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                         user4,
                         5,
                         """
-                                With its compelling plot and brilliant acting,
-                                stands as one of the greatest films ever made""",
+                               If there were not an audience for heroes than clearly these films would not be made, to answer one other reviewer although I sympathize with him somewhat. The world is indeed an infinitely more complex place than the world of Marvel comics with clearly identifiable heroes and villains. But I get the feeling that from Robert Downey, Jr. on down the organizer and prime mover as Iron Man behind the Avengers these players do love doing these roles because it's a lot of fun. If they didn't show that spirit of fun to the audience than these films would never be made.
+
+My favorite is always Chris Evans because of the whole cast he best gets into the spirit of being a superhero. Of all of them, he's already played two superheroes, Captain America and Johnny Storm the Human Torch. I'll be before he's done Evans will play a couple of more as long as the money's good and he enjoys it.
+
+Pretend you're a kid again and enjoy, don't take it so seriously.""",
                         LocalDate.now() );
                 reviewRepository.save(review4);
 
@@ -1781,8 +1793,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                         user5,
                         5,
                         """
-                                an emotional journey that leaves a lasting impact.
-                                A beautifully told story""",
+                        A Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed?""",
                         LocalDate.now() );
                 reviewRepository.save(review5);
 

@@ -1,115 +1,255 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--[if IE 7]>
+<html class="ie ie7 no-js" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8 no-js" lang="en-US">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+
+<!-- moviesingle07:38-->
+
 <head>
-    <meta charset="UTF-8">
-    <title>Movie Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .movie-details {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .movie-poster {
-            flex: 0 0 30%; /* Adjust width as needed */
-            margin-right: 20px;
-        }
-        .movie-poster img {
-            width: 100%;
-            height: auto;
-        }
-        .movie-info {
-            flex: 1;
-        }
-        .reviews {
-            margin-top: 20px;
-        }
-        .review {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .review .user {
-            font-weight: bold;
-        }
-        .review .date {
-            font-size: 12px;
-            color: #666;
-        }
-        .admin-edit {
-            margin-top: 20px;
-        }
-        .admin-edit form {
-            margin-top: 10px;
-        }
-    </style>
+  <!-- Basic need -->
+  <title>Open Pediatrics</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <link rel="profile" href="#">
+
+  <!--Google Font-->
+  <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
+  <!-- Mobile specific meta -->
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone-no">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" th:href="@{/css/plugins.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
+
 <body>
-<h1>Movie Details</h1>
-<div class="movie-details">
-    <div class="movie-poster">
-        <img th:src="@{${adm_movie.posterUrl}}" alt="Movie Poster">
-        <form method="post" enctype="multipart/form-data" th:action="@{/admin/updatePoster/{id}(id=${adm_movie.movieId})}">
-            <input type="file" name="posterFile" required />
-            <input type="hidden" name="movieId" th:value="${adm_movie.movieId}" />
-            <button type="submit">Update Poster</button>
-        </form>
-    </div>
-    <div class="movie-info">
-        <form method="post" th:action="@{/admin/updateMovie/{id}(id=${adm_movie.movieId})}" th:object="${adm_movie}">
-            <div>
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" th:field="*{title}" required />
-            </div>
-            <div>
-                <label for="releaseDate">Release Year:</label>
-                <input type="number" id="releaseDate" name="releaseDate" th:field="*{releaseDate}" required />
-            </div>
-            <div>
-                <label >Genres:</label>
-                <select  name="genreId" >
-                    <option th:each="genre : ${adm_genres}"
-                            th:value="${genre.genreId}"
-                            th:text="${genre.name}"
-                            th:selected="${#lists.contains(adm_movie.genres, genre)}">
-                    </option>
-                </select>
 
-            </div>
-            <div>
-                <label for="imdb_rating">IMDb Rating:</label>
-                <input type="number" id="imdb_rating" name="imdb_rating" th:field="*{imdb_rating}" step="0.1" required />
-            </div>
-            <div>
-                <label for="director">Director:</label>
-                <input type="text" id="director" name="director" th:field="*{director}" required />
-            </div>
-            <div>
-                <label for="plot">Plot:</label>
-                <textarea id="plot" name="plot" th:field="*{plot}" required></textarea>
-            </div>
-            <button type="submit">Update Movie</button>
-        </form>
 
-        <form method="post" th:action="@{/admin/deleteMovie/{id}(id=${adm_movie.movieId})}" style="margin-top: 10px;">
-            <button type="submit">Delete Movie</button>
-        </form>
-    </div>
-</div>
-
-<div class="reviews">
-    <h2>Reviews</h2>
-    <div th:each="review : ${adm_reviews}">
-        <div class="review">
-            <p class="user" th:text="${review.user.userName}">User</p>
-            <p class="date" th:text="${review.reviewDate}">Review Date</p>
-            <p><strong>Rating:</strong> <span th:text="${review.rating}">Rating Value</span></p>
-            <p><strong>Review:</strong> <span th:text="${review.reviewText}">Review Text</span></p>
+  <!-- BEGIN | Header -->
+  <header class="ht-header">
+    <div class="container">
+      <nav class="navbar navbar-default navbar-custom">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header logo">
+          <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <div id="nav-icon1">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <img class="logo" th:src="@{/images/logo1.png}" alt="" width="119" height="58">
         </div>
-    </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav flex-child-menu menu-left">
+          </ul>
+          <ul class="nav navbar-nav flex-child-menu menu-right">
+            <!--<li class="loginLink"><a href="#">LOG In</a></li>-->
 
-</div>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </nav>
+
+    </div>
+  </header><!-- END | Header -->
+
+  <div class="hero mv-single-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-single movie-single movie_single">
+    <div class="container">
+      <div class="row ipad-width2">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <div class="movie-img sticky-sb">
+            <img th:src="@{${adm_movie.posterUrl}}" alt="Movie Poster">
+            <div class="movie-btn">
+
+
+              <form method="post" enctype="multipart/form-data" th:action="@{/admin/updatePoster/{id}(id=${adm_movie.movieId})}">
+                <input type="file" name="posterFile" required />
+                <input type="hidden" name="movieId" th:value="${adm_movie.movieId}" />
+                <button type="submit">Update Poster</button>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12 col-md-8-width">
+          <div class="movie-single-ct main-content">
+            <h1 class="bd-hd" th:text="${adm_movie.title}"><span th:text="${adm_movie.releaseDate}"></span></h1>
+
+            <div class="movie-rate">
+              <div class="rate">
+                <i class="ion-android-star"></i>
+                <p><span th:text="${adm_movie.imdb_rating}"></span> /10<br>
+
+                </p>
+              </div>
+
+            </div>
+            <div class="movie-tabs">
+              <div class="tabs">
+                <ul class="tab-links tabs-mv">
+                  <li class="active"><a href="#overview">Overview</a></li>
+                  <li><a href="#reviews"> Reviews</a></li>
+
+                </ul>
+                <div class="tab-content">
+                  <div id="overview" class="tab active">
+                    <div class="row">
+                      <div class="col-md-4 col-xs-12 col-sm-12">
+                        <form method="post" th:action="@{/admin/updateMovie/{id}(id=${adm_movie.movieId})}" th:object="${adm_movie}" >
+                          <div class="sb-it">
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" name="title" th:field="*{title}" required />
+                          </div>
+
+                          <div class="sb-it">
+                            <label for="releaseDate">Release Year:</label>
+                            <input type="number" id="releaseDate" name="releaseDate" th:field="*{releaseDate}" required />
+                          </div>
+
+                          <div class="sb-it">
+                            <label>Genres:</label>
+                            <select name="genreId">
+                              <option th:each="genre : ${adm_genres}" th:value="${genre.genreId}" th:text="${genre.name}" th:selected="${#lists.contains(adm_movie.genres, genre)}">
+                              </option>
+                            </select>
+                          </div>
+
+                          <div class="sb-it">
+                            <label for="imdb_rating">IMDb Rating:</label>
+                            <input type="number" id="imdb_rating" name="imdb_rating" th:field="*{imdb_rating}" step="0.1" required />
+                          </div>
+
+                          <div class="sb-it">
+                            <label for="director">Director:</label>
+                            <input type="text" id="director" name="director" th:field="*{director}" required />
+                          </div>
+
+                          <div class="sb-it">
+                            <label for="plot">Plot:</label>
+                            <textarea id="plot" name="plot" th:field="*{plot}" required></textarea>
+                          </div>
+
+                          <button type="submit">Update Movie</button>
+                        </form>
+                        <form method="post" th:action="@{/admin/deleteMovie/{id}(id=${adm_movie.movieId})}">
+                          <button type="submit">Delete Movie</button>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="reviews" class="tab review">
+                    <div class="row">
+
+                      <div class="mv-user-review-item" th:each="review : ${adm_reviews}">
+                        <div class="user-infor">
+                          <div>
+                            <h3>Rating: <span th:text="${review.rating}">Rating Value</span></h3>
+
+                            <p class="time">
+                              <span th:text="${review.reviewDate}">Review Date</span> by <span th:text="${review.user.userName}">User</span>
+                            </p>
+                          </div>
+                        </div>
+                        <p><span th:text="${review.reviewText}">Review Text</span></p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- footer section-->
+  <footer class="ht-footer">
+    <div class="container">
+      <div class="flex-parent-ft">
+        <div class="flex-child-ft item1">
+          <a href="index-2.html"><img class="logo" th:src="@{/images/logo1.png}" alt=""></a>
+          <p>5th Avenue st, manhattan<br>
+            New York, NY 10001</p>
+          <p>Call us: <a href="#">(+01) 202 342 6789</a></p>
+        </div>
+        <div class="flex-child-ft item2">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blockbuster</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Forums</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Help Center</a></li>
+          </ul>
+        </div>
+        <div class="flex-child-ft item3">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+        <div class="flex-child-ft item4">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Watchlist</a></li>
+            <li><a href="#">Collections</a></li>
+            <li><a href="#">User Guide</a></li>
+          </ul>
+        </div>
+        <div class="flex-child-ft item5">
+          <h4>Newsletter</h4>
+          <p>Subscribe to our newsletter system now <br> to get latest news from us.</p>
+          <form action="#">
+            <input type="text" placeholder="Enter your email...">
+          </form>
+          <a href="#" class="btn">Subscribe now <i class="ion-ios-arrow-forward"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-copyright">
+      <div class="ft-left">
+        <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+      </div>
+      <div class="backtotop">
+        <p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- end of footer section-->
+
+  <script th:src="@{/js/jquery.js}"></script>
+  <script th:src="@{/js/plugins.js}"></script>
+  <script th:src="@{/js/plugins2.js}"></script>
+  <script th:src="@{/js/custom.js}"></script>
 </body>
+
+<!-- moviesingle11:03-->
+
 </html>
