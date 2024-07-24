@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         System.out.println(newPassword);
     }
 
-    public User getUserByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+    public User getUserByUserName(String name) {
+        return userRepository.findByName(name);
     }
 }

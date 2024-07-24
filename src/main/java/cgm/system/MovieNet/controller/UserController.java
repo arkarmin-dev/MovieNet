@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -119,6 +121,8 @@ public class UserController {
             // Redirect or return an error message
             return "redirect:/user/home"; // Example redirection
         }
+        newReview.setReviewDate(LocalDate.now());
+
         // Save the review with username
         reviewService.saveReview(newReview,username);
         return "redirect:/user/movie/" + id;

@@ -18,11 +18,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false)
-    private String userName;
+    private String name;
 
     @Column(nullable = false)
     private String email;
@@ -35,7 +35,7 @@ public class User {
     private Role role;
 
     public User(String name, String email, String password, Role role){
-        this.userName = name;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -43,7 +43,7 @@ public class User {
 
     public User(UserForm userForm){
         this.id = userForm.getId();
-        this.userName = userForm.getUserName();
+        this.name = userForm.getName();
         this.email = userForm.getEmail();
         this.password = userForm.getPassword();
     }

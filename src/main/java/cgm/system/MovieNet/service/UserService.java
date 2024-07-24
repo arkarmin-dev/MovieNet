@@ -9,6 +9,6 @@ public interface UserService {
 
     public void updatePassword(User user, String newPassword) ;
 
-    public User getUserByUserName(String userName) ;
+    public User getUserByUserName(String name) ;
 
 }

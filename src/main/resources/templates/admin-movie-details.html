@@ -64,6 +64,12 @@
 
     </div>
   </header><!-- END | Header -->
+  <div th:if="${success}" class="alert alert-success" role="alert">
+    <span th:text="${success}"></span>
+  </div>
+  <div th:if="${error}" class="alert alert-danger" role="alert">
+    <span th:text="${error}"></span>
+  </div>
 
   <div class="hero mv-single-hero">
     <div class="container">
@@ -83,10 +89,11 @@
 
 
               <form method="post" enctype="multipart/form-data" th:action="@{/admin/updatePoster/{id}(id=${adm_movie.movieId})}">
-                <input type="file" name="posterFile" required />
+                <input type="file" name="posterFile" accept=".jpg, .jpeg, .png" required />
                 <input type="hidden" name="movieId" th:value="${adm_movie.movieId}" />
                 <button type="submit">Update Poster</button>
               </form>
+
 
 
             </div>
@@ -168,7 +175,7 @@
                             <h3>Rating: <span th:text="${review.rating}">Rating Value</span></h3>
 
                             <p class="time">
-                              <span th:text="${review.reviewDate}">Review Date</span> by <span th:text="${review.user.userName}">User</span>
+                              <span th:text="${review.reviewDate}">Review Date</span> by <span th:text="${review.user.name}">User</span>
                             </p>
                           </div>
                         </div>

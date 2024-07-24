@@ -156,7 +156,7 @@
 														<h3>Rating: <span th:text="${review.rating}">Rating Value</span></h3>
 
 														<p class="time">
-															<span th:text="${review.reviewDate}">Review Date</span> by <span th:text="${review.user.userName}">User</span>
+															<span th:text="${review.reviewDate}">Review Date</span> by <span th:text="${review.user.name}">User</span>
 														</p>
 													</div>
 												</div>
@@ -171,7 +171,7 @@
 														<h3>Add a Review</h3>
 														<form method="post" th:action="@{/user/reviews/{id}(id=${movie.movieId})}" th:object="${newReview}">
 															<input type="hidden" th:field="*{movie}" th:value="${movie}" />
-															<input type="hidden" id="userName" name="userName" th:field="*{user.userName}" />
+															<input type="hidden" id="userName" name="userName" th:field="*{user.name}" />
 															<div>
 																<label for="rating">Rating:</label>
 																<input type="number" id="rating" name="rating" th:field="*{rating}" min="1" max="5" required />

@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -134,18 +135,39 @@ public class AdminController {
         }
 
         @PostMapping("/updatePoster/{id}")
-        public String updatePoster(@PathVariable("id") Long movieId, @RequestParam("posterFile") MultipartFile posterFile) {
+        public String updatePoster(@PathVariable("id") Long movieId, @RequestParam("posterFile") MultipartFile posterFile, Model model, RedirectAttributes redirectAttributes) {
             Movie movie = movieService.getMovieById(movieId);
             if (!posterFile.isEmpty()) {
-                String posterUrl = savePosterFile(posterFile);
+                // Validate file type
+                String contentType = posterFile.getContentType();
+                if (!isImageFile(contentType)) {
+                    redirectAttributes.addFlashAttribute("error", "Invalid file type. Only JPG and PNG are allowed.");
+                    /*model.addAttribute("error", "Invalid file type. Only JPG and PNG are allowed.");*/
+                    return "redirect:/admin/movie/" + movieId;
+                }
+
+                // Validate file size (limit to 2MB for example)
+                if (posterFile.getSize() > 2 * 1024 * 1024) {
+                    redirectAttributes.addFlashAttribute("error", "File size too large. The maximum allowed size is 2MB.");
+                   /* model.addAttribute("error", "File size too large. The maximum allowed size is 2MB.");*/
+                    return "redirect:/admin/movie/" + movieId;
+                }
+                String posterUrl = movieService.savePosterFile(posterFile);
                 movie.setPosterUrl(posterUrl);
                 movieRepository.save(movie);
+                redirectAttributes.addFlashAttribute("success", "Poster updated successfully!");
             }
             return "redirect:/admin/movie/" + movieId;
         }
+    private boolean isImageFile(String contentType) {
+        return contentType.equals("image/jpeg") || contentType.equals("image/png");
+    }
+    private boolean isVideoFile(String contentType) {
+        return contentType.startsWith("video/");
+    }
 
     @PostMapping("/updateMovie/{id}")
-    public String updateMovie(@ModelAttribute Movie movie, @PathVariable Long id,Model model,@RequestParam("genreId") List<Long> genreIds) {
+    public String updateMovie(@ModelAttribute Movie movie, @PathVariable Long id,Model model,RedirectAttributes redirectAttributes,@RequestParam("genreId") List<Long> genreIds) {
         List<Genre> genres = genreService.findGenresByIds(genreIds);
         Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid movie ID:" + id));
 
@@ -158,39 +180,18 @@ public class AdminController {
         existingMovie.setGenres(genres);
 
         movieRepository.save(existingMovie);
+        redirectAttributes.addFlashAttribute("success", "Movie updated successfully!");
         model.addAttribute("adm_gId", genreIds);
 
         return "redirect:/admin/movie/" + id; // Redirect to the updated movie's details page
     }
 
-        private String savePosterFile(MultipartFile file) {
-            // Logic to save the file and return the URL
-            // ...
-            String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
 
-            try {
-                if (fileName.contains("..")) {
-                    throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
-                }
-                if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
-                    throw new RuntimeException("Invalid file type. Only JPG and PNG are allowed.");
-                }
-
-                Path targetLocation = this.fileStorageLocation.resolve(fileName);
-                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-                return "/img/poster/"+fileName;
-
-            } catch (IOException ex) {
-                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
-            }
-
-        }
 
     @PostMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable("id") Long movieId) {
+    public String deleteMovie(@PathVariable("id") Long movieId,RedirectAttributes redirectAttributes) {
         movieService.deleteMovieById(movieId);
-
+        redirectAttributes.addFlashAttribute("success", "Movie deleted successfully!");
         return "redirect:/admin/home";
     }
 
@@ -204,49 +205,44 @@ public class AdminController {
 
     @PostMapping("/addNewMovie")
     public String addMovie(@RequestParam("title") String title,
-                           @RequestParam("releaseDate") Integer releaseDate,
+                           @RequestParam("releaseYear") Integer releaseYear,
                            @RequestParam("imdb_rating") Double imdbRating,
                            @RequestParam("plot") String plot,
                            @RequestParam("director") String director,
                            @RequestParam("poster") MultipartFile poster,
                            @RequestParam("video") MultipartFile video,
-                           @RequestParam("genreIds") List<Long> genreIds) {
+                           @RequestParam("genreIds") List<Long> genreIds,
+                           RedirectAttributes redirectAttributes) {
+        if (title.isEmpty() || plot.isEmpty() || director.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Title, plot, and director are required fields.");
+            return "redirect:/admin/addMovie";
+        }
 
-        // Save poster and video files
-        String posterUrl = savePosterFile(poster);
-        String videoUrl = saveFile(video);
+        if (releaseYear < 1888 || releaseYear > 2100) {
+            redirectAttributes.addFlashAttribute("error", "Please enter a valid release year.");
+            return "redirect:/admin/addMovie";
+        }
 
-        // Create new movie object
-        Movie movie = new Movie(title, releaseDate, plot, imdbRating, director, posterUrl, videoUrl);
+        if (imdbRating < 0 || imdbRating > 10) {
+            redirectAttributes.addFlashAttribute("error", "Please enter a valid IMDB rating (0-10).");
+            return "redirect:/admin/addMovie";
+        }
 
-        // Add genres to the movie
-        List<Genre> genres = genreService.findGenresByIds(genreIds);
-        movie.setGenres(genres);
+        if (poster.isEmpty() || !isImageFile(poster.getContentType())) {
+            redirectAttributes.addFlashAttribute("error", "Please upload a valid poster file (JPG or PNG).");
+            return "redirect:/admin/addMovie";
+        }
 
-        // Save movie
-        movieRepository.save(movie);
+        if (video.isEmpty() || !isVideoFile(video.getContentType())) {
+            redirectAttributes.addFlashAttribute("error", "Please upload a valid video file.");
+            return "redirect:/admin/addMovie";
+        }
 
+        movieService.addMovie(title, releaseYear, imdbRating, plot, director, poster, video, genreIds);
+        redirectAttributes.addFlashAttribute("success", "Movie added successfully!");
         return "redirect:/admin/home";
     }
 
-    private String saveFile(MultipartFile file) {
-        String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-            if (fileName.contains("..")) {
-                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            return "/img/poster/"+fileName;
-
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
 
 
 }

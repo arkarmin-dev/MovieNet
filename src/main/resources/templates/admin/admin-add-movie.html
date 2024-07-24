@@ -9,6 +9,12 @@
 <body>
 <div class="container mt-5">
     <h1 class="mb-4">Add New Movie</h1>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+    <div th:if="${success}" class="alert alert-success" role="alert">
+        <span th:text="${success}"></span>
+    </div>
     <form th:action="@{/admin/addNewMovie}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Title:</label>
@@ -16,13 +22,13 @@
         </div>
 
         <div class="mb-3">
-            <label for="releaseDate" class="form-label">Release Date:</label>
-            <input type="number" id="releaseDate" name="releaseDate" class="form-control" required>
+            <label for="releaseYear" class="form-label">Release Year:</label>
+            <input type="text" id="releaseYear" name="releaseYear" class="form-control" pattern="\d{4}" title="Please enter a valid four-digit year" required>
         </div>
 
         <div class="mb-3">
             <label for="imdb_rating" class="form-label">IMDB Rating:</label>
-            <input type="number" step="0.1" id="imdb_rating" name="imdb_rating" class="form-control" required>
+            <input type="number" step="0.1" id="imdb_rating" name="imdb_rating" class="form-control" min="0" max="10" required>
         </div>
 
         <div class="mb-3">

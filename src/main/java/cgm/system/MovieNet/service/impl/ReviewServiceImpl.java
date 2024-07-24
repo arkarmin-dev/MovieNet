@@ -21,10 +21,10 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     @Transactional
-    public void saveReview(Review review,String userName) {
-        User user = userRepository.findByUserName(userName);
+    public void saveReview(Review review,String name) {
+        User user = userRepository.findByName(name);
         if (user == null) {
-            throw new IllegalArgumentException("User with username " + userName + " not found.");
+            throw new IllegalArgumentException("User with name " + name + " not found.");
         }
 
 

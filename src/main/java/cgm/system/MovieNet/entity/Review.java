@@ -33,7 +33,7 @@ public class Review {
     @Column(name = "rating")
     private int rating;
 
-    @Column(name = "review_text")
+    @Column(name = "review_text",columnDefinition = "TEXT")
     private String reviewText;
     @Temporal(TemporalType.DATE)
     @Column(name = "review_date")

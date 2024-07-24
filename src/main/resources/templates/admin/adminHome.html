@@ -75,6 +75,13 @@
 
 		</div>
 	</header><!-- END | Header -->
+	<div th:if="${success}" class="alert alert-success" role="alert">
+		<span th:text="${success}"></span>
+	</div>
+	<div th:if="${error}" class="alert alert-danger" role="alert">
+		<span th:text="${error}"></span>
+	</div>
+
 
 	<div class="slider movie-items">
 		<div class="container">

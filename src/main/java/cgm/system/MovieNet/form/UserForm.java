@@ -8,7 +8,7 @@ public class UserForm {
     private Long id;
 
     @NotNull(message = "Fill the name")
-    private String userName;
+    private String name;
 
     @NotNull(message = "Fill the email")
     private String email;

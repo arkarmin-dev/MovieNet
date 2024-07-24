@@ -41,7 +41,16 @@ public class LoginController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "logout", required = false) String logout,
+                        Model model) {
+        if (error != null) {
+            model.addAttribute("errorMessage", "Invalid email or password. Please try again.");
+        }
+        if (logout != null) {
+            model.addAttribute("logoutMessage", "You have been logged out successfully.");
+        }
+        model.addAttribute("userForm", new UserForm());
         return "login";
     }
 
@@ -58,7 +67,7 @@ public class LoginController {
         ModelAndView view = new ModelAndView("login");
         Role role = new Role("User");
         roleRepository.save(role);
-        User userAdd = new User(user.getUserName(),user.getEmail(),passwordEncoder.encode(user.getPassword()),role);
+        User userAdd = new User(user.getName(),user.getEmail(),passwordEncoder.encode(user.getPassword()),role);
         userRepository.save(userAdd);
         return view;
     }
